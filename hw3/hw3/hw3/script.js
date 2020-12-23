@@ -13,237 +13,8 @@ var worldcup_goals;
  *
  * @param selectedDimension a string specifying which dimension to render in the bar chart
  */
-function createBarChart(data) {
-
-    //var svgBounds = d3.select("#barChart")
-    //var xpad = 100;
-    //var ypad = 70;
-
-    d3.select('svg').selectAll('*').remove();
-
-    const svg = d3.select("#barChart")
-
-    //d3.select('svg').selectAll('*').remove();
-
-    //const svg = d3.select("#bar")
-
-    const width = +svg.attr('width');
-    const height = +svg.attr('height');
-    var maxValue = d3.max(data);
-
-    //const width = 500
-    //svg.attr('width');
-    //const height = 400
-   // svg.attr('height');
-    //var maxValue = d3.max(data);
-
-    const margin = { top: 45, bottom: 45, left: 45, right: 45 };
-    //console.log(width)
-    //console.log(maxValue)
-
-//const svg = d3.select('#d3-container')
-
-  svg.append('svg')
-  .attr('width', width - margin.left - margin.right)
-  .attr('height', height - margin.top - margin.bottom)
-  //.attr("viewBox", [0, 0, width, height]);
-
- 
-const x = d3.scaleBand()
-  .domain(d3.range(data.length))
-  .range([margin.left, width - margin.right])
-  .padding(0.1)
-
-  //console.log(x.domain())
-  //console.log(x.range())
-
- 
-
-   
-const y = d3.scaleLinear()
-  .domain([0, maxValue])
-  .range([height - margin.bottom, margin.top])
-
-//console.log(y.domain())
-//console.log(y.range())
-
- 
-
-  
-svg.append("g")
-.attr("fill", 'darkblue')
-.selectAll("rect")
-.data(data)
-.enter()
-.append('rect')
-.attr("x", (d, i) => x(i))
-.attr("y", d => y(d))
-.attr('title', (d) => d)
-.attr("class", "rect")
-.attr("height", d => y(0) - y(d))
-.attr("width", x.bandwidth())
-.on("mouseover", function(d) {
-    d3.select(this).attr("r", 10).style("fill", "red");
-  })
-.on("mouseout", function(d) {
-    d3.select(this).attr("r", 5.5).style("fill", "darkblue");
-  })
-.on("click", function(d,i) {
-
-    d3.select('#edition').select('text').remove()
-    //d3.select('#host').select('text').remove()
-    //d3.select('#winner').select('text').remove()
-    //d3.select('#silver').select('text').remove()
-    //d3.select('#teams').selectAll('*').remove();
-    //d3.select('#teams').selectAll(null).data(res.sort()).enter().append('p').append('li').remove()
-    //console.log(d);
-    //console.log(yearsarray[i])
-    //console.log(i)
-    var hosts = allWorldCupData.map( function(d){
-        return d.host
-
-    })
-
-    console.log(hosts)
-    console.log(yearsarray)
-
-    var winners = allWorldCupData.map(function(d){
-        return d.winner
-    })
-
-    var winner;
-    var w; 
-    for(w=0; w<winners.length; w++){
-        if(i===w){
-            
-
-            winner = winners[w]
-        }
-    }
-
-    console.log(i)
-
-    var runnerUp = allWorldCupData.map(function(d){
-        return d.runner_up
-    })
-    //console.log(runnerUp)
-
-    var silver; 
-    var s; 
-    for(s=0; s<runnerUp.length; s++){
-        if(i===s){
-            silver = runnerUp[s]
-        }
-    }
-
-    var teamnames = allWorldCupData.map(function(d){
-        return d.TEAM_NAMES
-    })
-    
-    var teams;
-    var t; 
-    for(t=0; t<teamnames.length; t++){
-
-        if(i===t){
-            teams = teamnames[t]
-        }
-    }
-
-    //console.log(teamnames.length)
-    //console.log(teams)
-    //var res = teams.split(",");
-    //console.log(res)
-    
-
-    var j;
-    var host_j;
-
-    for(j=0; j<hosts.length; j++){
-        if(i===j){
-            host_j = hosts[j]
-            //console.log(hosts[j]) 
-        }
-    }
-
-  
-  
-    //console.log(hosts)
-    d3.select('#edition').append('text').text(yearsarray[i]+" "+host_j)
-    //d3.select('#host').append('text').text(host_j)
-    //d3.select('#winner').append('text').text(winner)
-    //d3.select('#silver').append('text').text(silver)
-    //d3.select('#teams').selectAll(null).data(res).enter().append('p').append('li').text(function(d){return d})
 
 
-    //console.log(res)
-    
-    })
-    .style("margin-top", "10px")
-    .append("title")
-    .text(function(d,i) {
-        return yearsarray[i]+" World Cup Click to \nView Host, Winner & Teams";
-         });
-
-
-
-
-function yAxis(g) {
-    g.attr("transform", `translate(${margin.left}, 0)`)
-      .call(d3.axisLeft(y))
-      .attr("font-size", '11px')
-  }
-  
-
-  //console.log(data)
-
-  
-
-  function xAxis(g) {
-    g.attr("transform", `translate(0,${height - margin.bottom})`)
-      .call(d3.axisBottom(x).tickFormat(i => yearsarray[i]))
-      .attr("font-size", '12px')
-      .selectAll("text") // Properties for the labels
-      .attr("y", 0)
-      .attr("x", 9)
-      .attr("dy", ".35em")
-      .attr("transform", "rotate(450)")
-      .style("text-anchor", "start")
-  }
-  
-  svg.append("g").call(xAxis);
-  svg.append("g").call(yAxis);
-  svg.node(); 
-
-  //console.log(yearsarray)
-  //
-
-
-    //console.log(selectedDimension)
-
-    // ******* TODO: PART I *******
-
-    // Create the x and y scales; make
-    // sure to leave room for the axes
-
-    // Create colorScale
-
-    // Create the axes (hint: use #xAxis and #yAxis)
-
-    // Create the bars (hint: use #bars)
-
-
-
-    // ******* TODO: PART II *******
-
-    // Implement how the bars respond to click events
-    // Color the selected bar to indicate it has been selected.
-    // Make sure only the selected bar has this new color.
-
-    // Call the necessary update functions for when a user clicks on a bar.
-    // Note: think about what you want to update when a different bar is selected.
-
-
-}
 
 /**
  *  Check the drop-down box for the currently selected data type and update the bar chart accordingly.
@@ -396,14 +167,8 @@ d3.json("data/world.json", function (error, world) {
 });
 
 
-
-
 // Load CSV file
-
-
-
-    
-    d3.csv("data/fifa-world-cup.csv").then(
+d3.csv("data/fifa-world-cup.csv").then(
         function(csv){  
             csv.forEach(function (d) {
                 // Convert numeric values to 'numbers'
@@ -423,7 +188,7 @@ d3.json("data/world.json", function (error, world) {
     
                     // Store csv data in a global variable
         allWorldCupData = csv;
-        //console.log(allWorldCupData)
+        console.log(allWorldCupData[0])
 
         var team = allWorldCupData.map(function(d){
             return d.teams
@@ -468,25 +233,378 @@ d3.json("data/world.json", function (error, world) {
     } )
 
 
-  
-
- /*
-
-function test(data){
+function createBarChart(data) {
 
     d3.select('svg').selectAll('*').remove();
 
-    const svg = d3.select("#bar-chart")
+    const svg = d3.select("#barChart") 
 
     const width = +svg.attr('width');
     const height = +svg.attr('height');
     var maxValue = d3.max(data);
 
-    const margin = { top: 45, bottom: 45, left: 45, right: 45 };
-    console.log(width)
-    console.log(data)
 
-} */
+    const margin = { top: 45, bottom: 45, left: 45, right: 45 };
+    
+
+  svg.append('svg')
+  .attr('width', width - margin.left - margin.right)
+  .attr('height', height - margin.top - margin.bottom)
+  //.attr("viewBox", [0, 0, width, height]);
+
+ 
+const x = d3.scaleBand()
+  .domain(d3.range(data.length))
+  .range([margin.left, width - margin.right])
+  .padding(0.1)
+
+  console.log(x.domain())
+  console.log(x.range())
+
+const y = d3.scaleLinear()
+  .domain([0, maxValue])
+  .range([height - margin.bottom, margin.top])
+
+//console.log(y.domain())
+//console.log(y.range())
+
+svg.append("g")
+.selectAll("rect")
+.data(data)
+.enter()
+.append('rect')
+.attr("x", ( d,i) => x(i))
+.attr("y", d => y(d))
+.attr('title', (d) => d)
+.attr("class", "rect")
+.attr("height", d => y(0) - y(d))
+.attr("width", x.bandwidth())
+.attr("fill", 'darkblue')
+
+.on("mouseover", function(d,i) {
+    d3.select(this).attr("r", 10).style("fill", "red");
+    //console.log(i)
+  })
+.on("mouseout", function(d) {
+    d3.select(this).attr("r", 5.5).style("fill", "darkblue");
+    
+  })
+.on("click", function(event, d) {
+    var e = d3.selectAll('rect').nodes();
+    var i = e.indexOf(this);
+    console.log(yearsarray[i]);
+
+    var teamnames = allWorldCupData.map(function(d){
+        return d.TEAM_NAMES
+    })
+
+    var teams;
+    var t; 
+    for(t=0; t<teamnames.length; t++){
+
+        if(i===t){
+            teams = teamnames[t]
+        }
+    }
+    var res = teams.split(",");
+    console.log(res)
+    d3.select("g.parent").selectAll("*").remove();
+    //d3.select('#details').select('*').remove()
+    d3.select('#edition').select('text').remove()
+    d3.select('#host').select('text').remove()
+    d3.select('#winner').select('text').remove()
+    d3.select('#silver').select('text').remove()
+    d3.select('#teams').selectAll("*").remove()
+
+    var editions = allWorldCupData.map(function(d){
+        return d.EDITION
+       
+    })
+
+    //Editions 
+    var ed;
+    var edition; 
+    for(ed=0; ed<editions.length; ed++){
+        if(i===ed){
+            edition = editions[ed]
+        }
+    }
+    
+    d3.select('#edition')
+    .append('text')
+    .text(edition)
+
+    //Hosts
+    var hosts = allWorldCupData.map( function(d){
+        return d.host
+
+    })
+
+   var ho; 
+   var host; 
+    for(ho=0; ho<hosts.length; ho++){
+        if(i===ho){
+            host = hosts[ho]
+        }
+
+    }
+
+    //console.log(host)
+    //console.log(hosts)
+
+    d3.select("#host")
+    .append("text")
+    .text(host)
+
+    //Winner
+    var winners = allWorldCupData.map(function(d){
+        return d.winner
+    })
+
+    var winner;
+    var w; 
+    for(w=0; w<winners.length; w++){
+        if(i===w){
+            
+
+            winner = winners[w]
+        }
+    }
+    d3.select("#winner")
+    .append("text")
+    .text(winner)
+
+    //Runner Up 
+    var runnerUp = allWorldCupData.map(function(d){
+        return d.runner_up
+    })
+    //console.log(runnerUp)
+
+    var silver; 
+    var s; 
+    for(s=0; s<runnerUp.length; s++){
+        if(i===s){
+            silver = runnerUp[s]
+        }
+    }
+
+    d3.select('#silver')
+    .append('text')
+    .text(silver)
+
+    //Team Names 
+  
+
+     d3.select('#teams')
+    .selectAll(null)
+    .data(res)
+    .enter()
+    .append('p')
+    .append('li')
+    .text(function(d){return d}) 
+
+
+
+
+
+
+
+    
+
+
+
+
+  })
+
+ 
+  
+
+
+//.on("click", function(event, d) {
+  //  console.log(d); 
+    //console.log(d3.pointer(event));
+ // })
+
+
+
+
+
+
+
+/*.on("click", function(i) {
+
+    
+    d3.select('#edition').select('text').remove()
+    //d3.select('#host').select('text').remove()
+    //d3.select('#winner').select('text').remove()
+    //d3.select('#silver').select('text').remove()
+    //d3.select('#teams').selectAll('*').remove();
+    //d3.select('#teams').selectAll(null).data(res.sort()).enter().append('p').append('li').remove()
+    //console.log(d);
+   
+    //console.log(yearsarray)
+    //console.log(n)
+
+    //console.log(x(i))
+    var hosts = allWorldCupData.map( function(d){
+        return d.host
+
+    })
+
+    //console.log(hosts)
+    //console.log(yearsarray)
+
+    var winners = allWorldCupData.map(function(d){
+        return d.winner
+    })
+
+    var editions = allWorldCupData.map(function(d){
+        return d.EDITION
+    })
+
+    //console.log(editions.length)
+
+
+    var winner;
+    var w; 
+    for(w=0; w<winners.length; w++){
+        if(i===w){
+            
+
+            winner = winners[w]
+        }
+    }
+
+    //console.log(i)
+
+    var runnerUp = allWorldCupData.map(function(d){
+        return d.runner_up
+    })
+    //console.log(runnerUp)
+
+    var silver; 
+    var s; 
+    for(s=0; s<runnerUp.length; s++){
+        if(i===s){
+            silver = runnerUp[s]
+        }
+    }
+
+    var teamnames = allWorldCupData.map(function(d){
+        return d.TEAM_NAMES
+    })
+    
+    var teams;
+    var t; 
+    for(t=0; t<teamnames.length; t++){
+
+        if(i===t){
+            teams = teamnames[t]
+        }
+    }
+
+    //console.log(teamnames.length)
+    //console.log(teams)
+    //var res = teams.split(",");
+    //console.log(res)
+    
+    var j;
+    var host_j;
+
+    for(j=0; j<hosts.length; j++){
+        if(i===j){
+            host_j = hosts[j]
+            //console.log(hosts[j]) 
+        }
+    }
+
+  
+     //console.log(i)
+    //console.log(hosts)
+    //d3.select('#edition').append('text').text(yearsarray[i]+" "+host_j)
+    //d3.select('#host').append('text').text(host_j)
+    //d3.select('#winner').append('text').text(winner)
+    //d3.select('#silver').append('text').text(silver)
+    //d3.select('#teams').selectAll(null).data(res).enter().append('p').append('li').text(function(d){return d})
+
+    //d3.select('#edition').append('text').text(i)
+    //d3.select('#host').append('text').text(d)
+    //console.log(res)
+    
+    }) */
+    .style("margin-top", "10px")
+    .append("title")
+    .text(function(d,i) {
+        //console.log(i)
+        //console.log(d)
+        return yearsarray[i]+" World Cup Click to \nView Host, Winner & Teams"+i;
+         }) 
+      
+
+function yAxis(g) {
+    g.attr("transform", `translate(${margin.left}, 0)`)
+      .call(d3.axisLeft(y))
+      .attr("font-size", '11px')
+  }
+  
+
+  //console.log(data)
+
+  
+
+  function xAxis(g) {
+    g.attr("transform", `translate(0,${height - margin.bottom})`)
+      .call(d3.axisBottom(x).tickFormat(i => yearsarray[i]))
+      .attr("font-size", '12px')
+      .selectAll("text") // Properties for the labels
+      .attr("y", 0)
+      .attr("x", 9)
+      .attr("dy", ".35em")
+      .attr("transform", "rotate(450)")
+      .style("text-anchor", "start")
+  }
+  
+
+ 
+  
+  svg.append("g").call(xAxis);
+  svg.append("g").call(yAxis);
+  svg.node(); 
+
+
+
+  //console.log(yearsarray)
+  //
+
+
+    //console.log(selectedDimension)
+
+    // ******* TODO: PART I *******
+
+    // Create the x and y scales; make
+    // sure to leave room for the axes
+
+    // Create colorScale
+
+    // Create the axes (hint: use #xAxis and #yAxis)
+
+    // Create the bars (hint: use #bars)
+
+
+
+    // ******* TODO: PART II *******
+
+    // Implement how the bars respond to click events
+    // Color the selected bar to indicate it has been selected.
+    // Make sure only the selected bar has this new color.
+
+    // Call the necessary update functions for when a user clicks on a bar.
+    // Note: think about what you want to update when a different bar is selected.
+
+
+}
+
+
 
 function test(dataset){
 
@@ -545,7 +663,8 @@ svg.selectAll("rect")
    .on("mouseover", function() {
            d3.select(this)
                .attr("fill", "orange");
-   });
+   })
+   
 
 //Create labels
 svg.selectAll("text")
