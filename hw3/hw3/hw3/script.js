@@ -6,6 +6,7 @@ var teamarray;
 var worldcup_attendance; 
 var worldcup_matches;
 var worldcup_goals;
+var usmapdata; 
 
 
 /**
@@ -292,24 +293,9 @@ svg.append("g")
 .on("click", function(event, d) {
     var e = d3.selectAll('rect').nodes();
     var i = e.indexOf(this);
-    console.log(yearsarray[i]);
-
-    var teamnames = allWorldCupData.map(function(d){
-        return d.TEAM_NAMES
-    })
-
-    var teams;
-    var t; 
-    for(t=0; t<teamnames.length; t++){
-
-        if(i===t){
-            teams = teamnames[t]
-        }
-    }
-    var res = teams.split(",");
-    console.log(res)
-    d3.select("g.parent").selectAll("*").remove();
-    //d3.select('#details').select('*').remove()
+    //console.log(yearsarray[i]);
+     
+    d3.select("#edition").html("")
     d3.select('#edition').select('text').remove()
     d3.select('#host').select('text').remove()
     d3.select('#winner').select('text').remove()
@@ -392,108 +378,12 @@ svg.append("g")
     .append('text')
     .text(silver)
 
+
     //Team Names 
-  
-
-     d3.select('#teams')
-    .selectAll(null)
-    .data(res)
-    .enter()
-    .append('p')
-    .append('li')
-    .text(function(d){return d}) 
-
-
-
-
-
-
-
-    
-
-
-
-
-  })
-
- 
-  
-
-
-//.on("click", function(event, d) {
-  //  console.log(d); 
-    //console.log(d3.pointer(event));
- // })
-
-
-
-
-
-
-
-/*.on("click", function(i) {
-
-    
-    d3.select('#edition').select('text').remove()
-    //d3.select('#host').select('text').remove()
-    //d3.select('#winner').select('text').remove()
-    //d3.select('#silver').select('text').remove()
-    //d3.select('#teams').selectAll('*').remove();
-    //d3.select('#teams').selectAll(null).data(res.sort()).enter().append('p').append('li').remove()
-    //console.log(d);
-   
-    //console.log(yearsarray)
-    //console.log(n)
-
-    //console.log(x(i))
-    var hosts = allWorldCupData.map( function(d){
-        return d.host
-
-    })
-
-    //console.log(hosts)
-    //console.log(yearsarray)
-
-    var winners = allWorldCupData.map(function(d){
-        return d.winner
-    })
-
-    var editions = allWorldCupData.map(function(d){
-        return d.EDITION
-    })
-
-    //console.log(editions.length)
-
-
-    var winner;
-    var w; 
-    for(w=0; w<winners.length; w++){
-        if(i===w){
-            
-
-            winner = winners[w]
-        }
-    }
-
-    //console.log(i)
-
-    var runnerUp = allWorldCupData.map(function(d){
-        return d.runner_up
-    })
-    //console.log(runnerUp)
-
-    var silver; 
-    var s; 
-    for(s=0; s<runnerUp.length; s++){
-        if(i===s){
-            silver = runnerUp[s]
-        }
-    }
-
     var teamnames = allWorldCupData.map(function(d){
         return d.TEAM_NAMES
     })
-    
+
     var teams;
     var t; 
     for(t=0; t<teamnames.length; t++){
@@ -502,42 +392,23 @@ svg.append("g")
             teams = teamnames[t]
         }
     }
-
-    //console.log(teamnames.length)
-    //console.log(teams)
-    //var res = teams.split(",");
+    var res = teams.split(",");
     //console.log(res)
+
+     d3.select('#teams')
+    .selectAll(null)
+    .data(res)
+    .enter()
+    .append('p')
+    .append('li')
+    .text(function(d){return d})
+
     
-    var j;
-    var host_j;
 
-    for(j=0; j<hosts.length; j++){
-        if(i===j){
-            host_j = hosts[j]
-            //console.log(hosts[j]) 
-        }
-    }
-
-  
-     //console.log(i)
-    //console.log(hosts)
-    //d3.select('#edition').append('text').text(yearsarray[i]+" "+host_j)
-    //d3.select('#host').append('text').text(host_j)
-    //d3.select('#winner').append('text').text(winner)
-    //d3.select('#silver').append('text').text(silver)
-    //d3.select('#teams').selectAll(null).data(res).enter().append('p').append('li').text(function(d){return d})
-
-    //d3.select('#edition').append('text').text(i)
-    //d3.select('#host').append('text').text(d)
-    //console.log(res)
-    
-    }) */
-    .style("margin-top", "10px")
+  }).style("margin-top", "10px")
     .append("title")
     .text(function(d,i) {
-        //console.log(i)
-        //console.log(d)
-        return yearsarray[i]+" World Cup Click to \nView Host, Winner & Teams"+i;
+        return yearsarray[i]+" World Cup Click to \nView Host, Winner & Teams";
          }) 
       
 
@@ -548,11 +419,7 @@ function yAxis(g) {
   }
   
 
-  //console.log(data)
-
-  
-
-  function xAxis(g) {
+function xAxis(g) {
     g.attr("transform", `translate(0,${height - margin.bottom})`)
       .call(d3.axisBottom(x).tickFormat(i => yearsarray[i]))
       .attr("font-size", '12px')
@@ -564,18 +431,9 @@ function yAxis(g) {
       .style("text-anchor", "start")
   }
   
-
- 
-  
-  svg.append("g").call(xAxis);
-  svg.append("g").call(yAxis);
-  svg.node(); 
-
-
-
-  //console.log(yearsarray)
-  //
-
+svg.append("g").call(xAxis)
+svg.append("g").call(yAxis)
+svg.node(); 
 
     //console.log(selectedDimension)
 
@@ -605,82 +463,112 @@ function yAxis(g) {
 }
 
 
-
-function test(dataset){
-
-
-//Width and height
-d3.select('svg').selectAll('*').remove();
-
-var w = 500;
-var h = 400;
-
-const margin = { top: 45, bottom: 45, left: 45, right: 45 };
-
-//var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
-               // 11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
-
-   //.attr('width', width - margin.left - margin.right)
-  //.attr('height', height - margin.top - margin.bottom)
-  //.attr("viewBox", [0, 0, width, height]);
+// Create paths
 
 
-var xScale = d3.scaleBand()
-                .domain(d3.range(dataset.length))
-                .rangeRound([0, w])
-                .paddingInner(0.05);
 
-var yScale = d3.scaleLinear()
-                .domain([0, d3.max(dataset)])
-                .range([0, h]);
+//Load in GeoJSON data
+d3.csv('us-cities.csv').then(
+    function(data){
 
- //d3.select('svg').selectAll('#bar-chart').remove();
-//Create SVG element
-var svg = d3.select("#barChart")
-            .append("svg")
-            .attr("width", w - margin.left - margin.right)
-            .attr("height", h - margin.top - margin.bottom)
-            //.attr("viewBox", [0, 0, width, height]);
+      
+        //Set input domain for color scale
 
-//Create bars
-svg.selectAll("rect")
-   .data(dataset)
-   .enter()
-   .append("rect")
-   .attr("x", function(d, i) {
-           return xScale(i);
-   })
-   .attr("y", function(d) {
-           return h - yScale(d);
-   })
-   .attr("width", xScale.bandwidth())
-   .attr("height", function(d) {
-           return yScale(d);
-   })
-   .attr("fill", function(d) {
-        return "rgb(0, 0, " + Math.round(d * 10) + ")";
-   })
-   .on("mouseover", function() {
-           d3.select(this)
-               .attr("fill", "orange");
-   })
-   
+                d3.json("us-states.json").then(
+                    function(json) {
+                        //Bind data and create one path per GeoJSON feature 
+                        usmapdata = json
+                    //Merge the ag. data and GeoJSON
+					//Loop through once for each ag. data value
+					for (var i = 0; i < data.length; i++) {
+				
+						//Grab state name
+						var dataState = data[i].state;
+						
+						//Grab data value, and convert from string to float
+						var dataValue = parseFloat(data[i].value);
+				
+						//Find the corresponding state inside the GeoJSON
+						for (var j = 0; j < json.features.length; j++) {
+						
+							var jsonState = json.features[j].properties.name;
+				
+							if (dataState == jsonState) {
+						
+								//Copy the data value into the JSON
+								json.features[j].properties.value = dataValue;
+								
+								//Stop looking through the JSON
+								break;
+								
+							}
+						}		
+					}
 
-//Create labels
-svg.selectAll("text")
-   .data(dataset)
-   .enter()
-   .append("text")
-   .text(function(d) {
-           return d;
-   })
-   .attr("text-anchor", "middle")
-   .attr("x", function(d, i) {
-           return xScale(i) + xScale.bandwidth() / 2;
-   })
-   .attr("y", function(d) {
-           return h - yScale(d) + 14;
-   })
-   .attr("font-family", "sans-serif")
-   .attr("font-size", "11px")
-   .attr("fill", "white"); }
+
+                
+                        map(json.features)
+                    }  
+                
+                ).catch(function(error){
+                    console.log(error)
+                })
+
+                            
+
+    }
+).catch(
+    function(error){
+        console.log(error)
+    }
+)
+
+
+
+function map(data){
+    var svg = d3.select("#map")
+    var width = +svg.attr('width')
+    var height = +svg.attr('height')
+    var margins = {top:45, bottom:45, right:45, left:45}
+    //Define quantize scale to sort data values into buckets of color
+    var color = d3.scaleQuantize().range(["rgb(237,248,233)","rgb(186,228,179)","rgb(116,196,118)","rgb(49,163,84)","rgb(0,109,44)"]);
+    
+    color.domain([
+        d3.min(data, function(d) { return d.value; }), 
+        d3.max(data, function(d) { return d.value; })
+    ]); 
+
+    var projection = d3.geoAlbersUsa().translate([width/1.5, height/1.5]).scale(500);
+    var path = d3.geoPath().projection(projection);
+
+    //Define quantize scale to sort data values into buckets of color
+	//var color = d3.scaleQuantize()
+            
+
+    //Append the dimensions 
+    svg.append('svg')
+    .attr('width',width-margins.left-margins.right)
+    .attr('height', height-margins.bottom-margins.top)
+    .attr("viewBox", [0, 0, width, height]);
+
+     svg.selectAll("path")
+     .data(data)
+     .enter()
+     .append("path")
+     .attr("d",path)
+     .style("fill", function(d) {
+        //Get data value
+        var value = d.properties.value;
+        
+        if (value) {
+            //If value exists…
+            return color(value);
+        } else {
+            //If value is undefined…
+            return "#bbb";
+        }
+});
+
+    //console.log("Am the map")  
+
+}
