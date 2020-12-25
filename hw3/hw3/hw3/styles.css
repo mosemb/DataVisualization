@@ -1,8 +1,20 @@
 
-.countries {
+.country {
     stroke: #f7f7f7;
-    fill: #d9d9d9;
+    fill: darkblue; 
+    stroke-opacity: 0.1;
+    
+
 }
+
+.sphere {
+    fill:  #f7f7f7;
+  }
+
+.country:hover{
+    fill: red; 
+}
+
 
 .legend-element {
     width: 15px;
@@ -10,15 +22,23 @@
 }
 
 .team {
-    fill: #fee8c8;
+    fill: cadetblue;
+    stroke: #252525;
+    stroke-width: 2px;
+    opacity: .8;
 }
 
 .team-html {
     background-color: #fee8c8;
 }
 
+
+
 .host {
-    fill: #2b8cbe;
+    fill: chocolate;
+    stroke: #252525;
+    stroke-width: 2px;
+    opacity: .8;
 }
 
 .gold {
@@ -28,9 +48,10 @@
     stroke-width: 2px;
 }
 
-.silver {
-    fill: #d9d9d9;
+#map-view .silver {
+    fill: lightgreen; 
     opacity: .8;
+    stroke-width: 2px;
     stroke: #252525;
 }
 
@@ -139,6 +160,15 @@ header {
 #xAxis text,
 #yAxis text {
     font-size: 14px;
+
+}
+
+#details h2{
+    font-family: 'dusha';
+    color: #d20a11;
+    padding-bottom: 0px;
+    margin-top: 3px;
+    margin-bottom: 0px;
 
 }
 
