@@ -4,6 +4,7 @@ var projection;
 var svgMap;
 var countriesdata;
 var arr = []
+var countryIds;
 var yearsarray;
 var teamarray; 
 var worldcup_attendance; 
@@ -177,6 +178,28 @@ d3.json("data/world.json").then(
     }
 )
 
+d3.csv('countries_iso.csv').then(
+    function(country){
+
+      var count =   country.map(function(d){
+
+            return d.Country
+        })
+
+        var countryName = {}
+        country.forEach(function(d){
+            return countryName[d.Alpha3code.replace(/\s/g, '')]= d.Country.replace(/\s/g, '')
+        })
+        //console.log(countryName) 
+        countryIds = countryName
+       // console.log(JSON.parse(JSON.stringify(countryName)))
+    }
+).catch(function(error){
+    console.log(error)
+})
+
+
+
 d3.json("data/world.json").then(
     function(json) {
         //Bind data and create one path per GeoJSON feature 
@@ -185,9 +208,12 @@ d3.json("data/world.json").then(
         const countries = topojson.feature(json, json.objects.countries);
         countriesdata = countries
 
-        console.log(countries)
+        console.log(countries.features.id)
 
-       map(countries.features)
+    
+
+       mapdraw(countries.features)
+
     }  
 
 ).catch(function(error){
@@ -262,6 +288,8 @@ d3.csv("data/fifa-world-cup.csv").then(
         //console.log(worldcup_goals)   
 
         console.log(allWorldCupData)
+
+        chooseData()
         
             }
     
@@ -345,7 +373,7 @@ svg.append("g")
     d3.select('#teams').selectAll("*").remove()
     svgMap.selectAll("*").remove()
 
-    map(countriesdata.features)
+   // mapdraw(countriesdata.features)
 
 
     var e = d3.selectAll('rect').nodes();
@@ -397,7 +425,7 @@ svg.append("g")
             host = hosts.reverse()[ho]
         }
 
-    }
+    } 
 
     //console.log(host)
     //console.log(hosts)
@@ -457,8 +485,9 @@ svg.append("g")
             teams = teamnames.reverse()[t]
         }
     }
+    // Split team names 
     var res = teams.split(",");
-    //console.log(res)
+    console.log(res)
 
      d3.select('#teams')
     .selectAll(null)
@@ -579,8 +608,41 @@ svg.append("g")
             
         }
     }  */
+
+    // Host key 
+    var hostkey = []
+    Object.keys(countryIds).forEach( 
+        function(key){
+            
+            if(countryIds[key]===host)
+            {
+                hostkey.push(key) 
+            }
+        }
+    )
  
     //World cup winners on appended on the map. 
+    var path = d3.geoPath().projection(projection);
+    const colorScale = d3.scaleOrdinal(d3.schemeCategory10); 
+    
+    //Host Map
+    svgMap.append('g')
+    .selectAll('path')
+    .data(countriesdata.features)
+    .enter()
+    .append('path')
+    .attr('class', 'country')
+    .attr('d', path)
+    .attr('fill', function(d){
+        //return d
+        //console.log(countryIds[d.id]) 
+        return colorScale(d.id===hostkey[0])
+    })
+    .append('title')
+    .text(function(d){
+        return countryIds[d.id]
+    })
+
     
    
 
@@ -597,7 +659,7 @@ svg.append("g")
    .attr("cy", function(d) {
                    return projection(d)[1];
            })
-    .attr("r", 5)
+    .attr("r", 7)
     
     // World cup runners up appended on the map. 
     var rsu = []
@@ -615,8 +677,33 @@ svg.append("g")
    .attr("cy", function(d) {
                    return projection(d)[1];
            })
-    .attr("r", 5)
+    .attr("r", 7)
 
+    var hostkey = []
+    Object.keys(countryIds).forEach( 
+        function(key){
+            
+            if(countryIds[key]===host)
+            {
+                hostkey.push(key) 
+            }
+        }
+    )
+
+    var participants  = []
+    for(var z = 0; z<Object.keys(countryIds).length; z++){
+        for(var x=0; x<res.length; x++)
+        {
+            if(countryIds[Object.keys(countryIds)[z]]===res[x]){
+                participants.push(Object.keys(countryIds)[z])
+            }
+        }
+    }
+
+    
+    console.log(participants)
+    console.log(Object.keys(countryIds)[0])
+    console.log(host)
 
     d3.select(this).attr("r", 10).style("fill", "red"); 
 
@@ -708,12 +795,17 @@ Promise.all(
 
 
 
-function map(data){
+function mapdraw(data){
     svgMap = d3.select("#map")
     var width = +svgMap.attr('width')
     var height = +svgMap.attr('height')
     var margins = {top:45, bottom:45, right:45, left:45}
     var g = svgMap.append("g");
+    const colorScale = d3.scaleOrdinal(d3.schemeCategory10); 
+
+    //var colorScale = d3.scaleOrdinal(d3.schemeCategory10)
+
+    //const colorValue = function(d)  d.properties.economy;
 
     projection = d3.geoNaturalEarth1().translate([width/2, height/2]).scale(98)//
     //.scale(80);
@@ -755,15 +847,19 @@ function map(data){
     .append('path')
     .attr('class', 'country')
     .attr('d', path)
+    .attr('fill', 'darkblue'
+        
+    )
     .append('title')
     .text(function(d){
-        return d.id
+        return countryIds[d.id]
     })
 
- 
-
-
-     /*
+    var country_ids = countriesdata.features.map(function(d){
+      return d.id
+    })
+    console.log(country_ids)
+  /*
      svg.selectAll("path")
      .data(data)
      .enter()
@@ -771,11 +867,13 @@ function map(data){
      .attr('class','country')
      .attr("d",path)  */
      //.style("fill", 'darkblue')
-     
-
     //console.log("Am the map")  
 
 } 
+
+
+
+
 
 
 
