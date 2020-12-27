@@ -3,8 +3,17 @@
     stroke: #f7f7f7;
     stroke-width: 2px;
     stroke-opacity: 0.1;
+    border: #252525;
     
 
+}
+#map{
+    background-color: #f7f7f7;
+    /*opacity: 9;*/
+}
+
+#barChart{
+    background-color:  #f7f7f7;;
 }
 
 .sphere {
@@ -12,9 +21,9 @@
     fill: c
   }
 
-/*.country:hover{
+.country:hover{
     fill: red; 
-}*/
+}
 
 .rect:hover{
 
@@ -55,7 +64,7 @@
 }
 
 #map-view .silver {
-    fill: purple; 
+    fill: greenyellow; 
     opacity: .8;
     stroke-width: 2px;
     stroke: #252525;

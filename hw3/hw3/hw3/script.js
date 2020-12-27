@@ -259,7 +259,7 @@ function createBarChart(data) {
      // We will track the index for the Edition, Host, Winner, Runner Up and Teams. 
      // The way the index is accessed in d3.js V6 is different from other versions. 
      // Below is the process of getting the index in d3.js V6. 
-     
+
      var e = d3.selectAll('rect').nodes();
      var i = e.indexOf(this);
        
@@ -448,8 +448,8 @@ function createBarChart(data) {
     })
 
     // Attach the granticule onto the map. 
-    svgMap.append("path").attr("id", "graticule").attr("class", "grat")
-    .attr("d", path(d3.geoGraticule10()));
+    //svgMap.append("path").attr("id", "graticule").attr("class", "grat")
+    //.attr("d", path(d3.geoGraticule10()));
 
     // Hosts Latitudes 
     var host_cords = allWorldCupData.map(function(d){
@@ -573,11 +573,11 @@ function mapdraw(data){
     .attr('width',width-margins.left-margins.right)
     .attr('height', height-margins.bottom-margins.top)
 
-   // Append graticule 
-   svgMap.append("path")
-    .attr("id", "graticule")
-    .attr("class", "grat")
-    .attr("d", path(d3.geoGraticule10()))
+   // Append graticule
+  // svgMap.append("path")
+   // .attr("id", "graticule")
+   // .attr("class", "grat")
+   // .attr("d", path(d3.geoGraticule10()))
 
     // Append path 
     g.selectAll('path')
@@ -594,6 +594,7 @@ function mapdraw(data){
 
 } 
 
+// I did not use the functions below. 
 /**
  * Renders and updates the map and the highlights on top of it
  *
