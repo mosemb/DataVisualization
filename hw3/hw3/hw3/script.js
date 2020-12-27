@@ -624,6 +624,16 @@ svg.append("g")
     //World cup winners on appended on the map. 
     var path = d3.geoPath().projection(projection);
     const colorScale = d3.scaleOrdinal(d3.schemeCategory10); 
+
+    var participants  = []
+    for(var z = 0; z<Object.keys(countryIds).length; z++){
+        for(var x=0; x<res.length; x++)
+        {
+            if(countryIds[Object.keys(countryIds)[z]]===res[x]){
+                participants.push(Object.keys(countryIds)[z])
+            }
+        }
+    }
     
     //Host Map
     svgMap.append('g')
@@ -634,14 +644,27 @@ svg.append("g")
     .attr('class', 'country')
     .attr('d', path)
     .attr('fill', function(d){
-        //return d
-        //console.log(countryIds[d.id]) 
-        return colorScale(d.id===hostkey[0])
+        //return d 
+        for(var pt=0; pt<participants.length; pt++){
+            if(participants[pt]===d.id){
+                return 'red'
+            }else{
+                
+            }
+        }
+        //return colorScale(d.rid===hostkey[0])
     })
+    //.attr('fill', function(d){
+     //   return colorScale(d.id==='USA')
+    //})
     .append('title')
     .text(function(d){
         return countryIds[d.id]
     })
+    svgMap.append("path")
+    .attr("id", "graticule")
+    .attr("class", "grat")
+    .attr("d", path(d3.geoGraticule10()));
 
     
    
@@ -690,17 +713,9 @@ svg.append("g")
         }
     )
 
-    var participants  = []
-    for(var z = 0; z<Object.keys(countryIds).length; z++){
-        for(var x=0; x<res.length; x++)
-        {
-            if(countryIds[Object.keys(countryIds)[z]]===res[x]){
-                participants.push(Object.keys(countryIds)[z])
-            }
-        }
-    }
+  
 
-    
+
     console.log(participants)
     console.log(Object.keys(countryIds)[0])
     console.log(host)
@@ -854,6 +869,11 @@ function mapdraw(data){
     .text(function(d){
         return countryIds[d.id]
     })
+    
+    svgMap.append("path")
+    .attr("id", "graticule")
+    .attr("class", "grat")
+    .attr("d", path(d3.geoGraticule10()));
 
     var country_ids = countriesdata.features.map(function(d){
       return d.id
