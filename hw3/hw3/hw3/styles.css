@@ -1,7 +1,7 @@
 
 .country {
     stroke: #f7f7f7;
-    
+    stroke-width: 2px;
     stroke-opacity: 0.1;
     
 
@@ -41,7 +41,7 @@
 
 
 .host {
-    fill: chocolate;
+    fill: red;
     stroke: #252525;
     stroke-width: 2px;
     opacity: .8;
@@ -55,7 +55,7 @@
 }
 
 #map-view .silver {
-    fill: lightgreen; 
+    fill: purple; 
     opacity: .8;
     stroke-width: 2px;
     stroke: #252525;
@@ -142,6 +142,11 @@ header {
     float: left;
     width: 500px;
     margin-right: 20px;
+
+}
+
+#barChart:hover {
+    fill: brown;
 
 }
 
