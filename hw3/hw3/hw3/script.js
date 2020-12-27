@@ -350,20 +350,18 @@ svg.append("g")
 .attr("width", x.bandwidth())
 .attr("fill", 'darkblue')
 
-//.on("mouseover", function(d,i) {
-  //  d3.select(this).attr("r", 10).style("fill", "red");
+.on("mouseover", function(d,i) {
+   d3.select(this).style("fill", "red");
     //console.log(i)
- // })
-//.//on("mouseout", function(d) {
-  //  d3.select(this).attr("r", 5.5).style("fill", "darkblue");
+ })
+.on("mouseout", function(d) {
+   d3.select(this).style("fill", "darkblue");
     
-  //})
+  })
 .on("click", function(event, d) {
 
-    
-
     d3.select(this).style('fill', 'red');
-    d3.selectAll('rect').style('fill', 'darkblue');
+    //d3.selectAll('rect').style('fill', 'darkblue');
 
     d3.select("#edition").html("")
     d3.select('#edition').select('text').remove()
@@ -373,7 +371,7 @@ svg.append("g")
     d3.select('#teams').selectAll("*").remove()
     svgMap.selectAll("*").remove()
 
-   // mapdraw(countriesdata.features)
+    //mapdraw(countriesdata.features)
 
 
     var e = d3.selectAll('rect').nodes();
@@ -647,20 +645,34 @@ svg.append("g")
         //return d 
         for(var pt=0; pt<participants.length; pt++){
             if(participants[pt]===d.id){
-                return 'red'
+                return 'cadetblue'
             }else{
-                
+                 'blue'
             }
         }
-        //return colorScale(d.rid===hostkey[0])
     })
-    //.attr('fill', function(d){
-     //   return colorScale(d.id==='USA')
-    //})
     .append('title')
     .text(function(d){
         return countryIds[d.id]
     })
+
+    //Host Map
+    /*svgMap.append('g')
+    .selectAll('path')
+    .data(countriesdata.features)
+    .enter()
+    .append('path')
+    .attr('class', 'country')
+    .attr('d', path)
+    .attr('fill', function(d){
+        //return d 
+       return colorScale(d.id===hostkey[0])
+   })
+    .append('title')
+    .text(function(d){
+        return countryIds[d.id]
+    })*/
+
     svgMap.append("path")
     .attr("id", "graticule")
     .attr("class", "grat")
@@ -854,6 +866,10 @@ function mapdraw(data){
   // console.log(runnerups.reverse()[0])
 
    //console.log(allWorldCupData[0].ru_pos)
+   svgMap.append("path")
+    .attr("id", "graticule")
+    .attr("class", "grat")
+    .attr("d", path(d3.geoGraticule10()))
 
 
     g.selectAll('path')
@@ -862,18 +878,25 @@ function mapdraw(data){
     .append('path')
     .attr('class', 'country')
     .attr('d', path)
-    .attr('fill', 'darkblue'
-        
-    )
+    .attr('fill', 'darkblue')
+    .on("mouseover", function(d,i) {
+         d3.select(this).style("fill", "red");
+          //console.log(i)
+       })
+    .on("mouseout", function(d) {
+        d3.select(this).style("fill", "darkblue");
+         
+       })  
     .append('title')
     .text(function(d){
         return countryIds[d.id]
     })
     
-    svgMap.append("path")
-    .attr("id", "graticule")
-    .attr("class", "grat")
-    .attr("d", path(d3.geoGraticule10()));
+
+    
+    
+    //.append("path")
+    //;
 
     var country_ids = countriesdata.features.map(function(d){
       return d.id
